@@ -1,2 +1,2 @@
 # Data-Analyst-SQL-Questions
-my answers to SQL takehomes
+my answers to SQL interview questoins
