@@ -1,18 +1,3 @@
-/* window function */
-With CTE as (
-select *,
-ROW_NUMBER()OVER(PARTITION BY continent ORDER BY name) AS rk
-FROM student
-)
-
-SELECT rk,
-MAX(CASE WHEN continent = 'America' THEN name END )AS America,
-MAX(CASE WHEN continent = 'Europe' THEN name END )AS Europe,
-MAX(CASE WHEN continent = 'Asia' THEN name END )AS Asia
-from CTE
-GROUP BY rk
-
-/* join tables */
 with CTE_America as(
 select
 row_number() over (order by name) as id, name
