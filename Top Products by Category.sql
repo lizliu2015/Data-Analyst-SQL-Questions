@@ -2,8 +2,10 @@
 orders: order_id, user_id, product_id,dest_country, time
 products: product_id, price, shipping
 users: user_id, status
+*/
 
-Quesiton:
+/*
+Quesiton: Top Products by Category
 Get the top three products based on GMV for each destination country
 destination_country, product_id, rank
 */
