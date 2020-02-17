@@ -1,30 +1,55 @@
-with CTE_America as(
-select
-row_number() over (order by name) as id, name
-from student
-where continent = 'America'
-),
+A U.S graduate school has students from Asia, Europe and America. The students' location information are stored in table student as below.
+ 
 
-CTE_Europe as(
-select
-row_number() over (order by name) as id, name
-from student
-where continent = 'Europe'
-),
+| name   | continent |
+|--------|-----------|
+| Jack   | America   |
+| Pascal | Europe    |
+| Xi     | Asia      |
+| Jane   | America   |
+ 
 
-CTE_Asia as(
-select
-row_number() over (order by name) as id, name
-from student
-where continent = 'Asia'
+Pivot the continent column in this table so that each name is sorted alphabetically and displayed underneath its corresponding continent. The output headers should be America, Asia and Europe respectively. It is guaranteed that the student number from America is no less than either Asia or Europe.
+ 
+
+For the sample input, the output is:
+ 
+
+| America | Asia | Europe |
+|---------|------|--------|
+| Jack    | Xi   | Pascal |
+| Jane    |      |        |
+ 
+
+Follow-up: If it is unknown which continent has the most students, can you write a query to generate the student report?
+
+
+WITH CTE AS(
+SELECT
+    name
+    ,continent
+    ,ROW_number() OVER(PARTITION BY continent ORDER BY name) AS num
+FROM student
 )
 
-select 
-amer.name as America,
-asia.name as Asia,
-eu.name as Europe
-from CTE_america amer
-full join CTE_Europe eu on amer.id =eu.id
-full join CTE_asia asia on asia.id = amer.id; 
-
-
+SELECT
+    america.name AS 'America'
+    ,asia.name AS 'Asia'
+    ,europe.name AS 'Europe'
+FROM(
+    SELECT *
+    FROM CTE
+    WHERE continent = 'America'
+) america
+FULL JOIN(
+    SELECT *
+    FROM CTE
+    WHERE continent = 'Asia'
+) asia
+    ON america.num = asia.num
+FULL JOIN(
+    SELECT *
+    FROM CTE
+    WHERE continent = 'Europe'
+) europe
+    ON america.num = europe.num
