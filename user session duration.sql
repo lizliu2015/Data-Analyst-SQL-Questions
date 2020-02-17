@@ -1,3 +1,4 @@
+reference: https://statsbot.co/blog/event-analytics-define-user-sessions-sql/
 With CTE_Inactivity as(
 SELECT 
     *
